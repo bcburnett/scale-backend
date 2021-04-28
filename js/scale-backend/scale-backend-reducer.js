@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 import produce from 'immer';
-import {INIT_APP} from './bcb-class-actions';
+import {INIT_APP} from './scale-backend-actions';
 
 const initialState = {
   myapp: 'test-data',

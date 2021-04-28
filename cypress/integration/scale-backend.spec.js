@@ -6,20 +6,20 @@ context('Actions', () => {
   });
 
   describe('Implicit Assertions', () => {
-    it('the inner html of the h1 element of the custom element should be bcb-class', () => {
+    it('the inner html of the h1 element of the custom element should be scale-backend', () => {
       // https://on.cypress.io/should
-      cy.shadowGet('bcb-class')
+      cy.shadowGet('scale-backend')
           .shadowFind('h1')
-          .shadowContains('bcb-class');
+          .shadowContains('scale-backend');
     });
 
-    it('the state should be {app{myapp: "bcb-class"', () => {
+    it('the state should be {app{myapp: "scale-backend"', () => {
       // https://on.cypress.io/should
       cy.window()
           .its('store')
           .invoke('getState')
           .should((e) => {
-            expect(e.app.myapp).to.equal('bcb-class');
+            expect(e.app.myapp).to.equal('scale-backend');
           });
     });
   });

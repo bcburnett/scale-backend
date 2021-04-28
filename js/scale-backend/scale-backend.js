@@ -2,18 +2,17 @@
 import {LitElement, html, css} from 'lit-element';
 import {connect} from 'pwa-helpers/connect-mixin.js';
 import produce from 'immer';
-import {initApp} from './bcb-class-actions';
-import {app} from './bcb-class-reducer';
+import {initApp} from './scale-backend-actions';
+import {app} from './scale-backend-reducer';
 import {store} from '../store.js';
 store.addReducers({app});
 
-export class BcbClass extends connect(store)( LitElement) {
+export class ScaleBackend extends connect(store)( LitElement) {
   /**
    * lit-element observed properties
    */
   static get properties() {
     return {
-      myapp: String,
       state: Object,
     };
   }
@@ -67,7 +66,7 @@ export class BcbClass extends connect(store)( LitElement) {
 
   render() {
     return html`
-  <h1>${this.myapp}</h1>
+  <h1>${this.state.myapp}</h1>
     `;
   }
 
@@ -76,7 +75,6 @@ export class BcbClass extends connect(store)( LitElement) {
     this.state = produce(state, (newState)=>{
       newState=state;
     }).app;
-    this.myapp = this.state.myapp;
   }
 
   // updated(changedProperties) {
@@ -84,4 +82,4 @@ export class BcbClass extends connect(store)( LitElement) {
   // }
 }
 
-customElements.define('bcb-class', BcbClass);
+customElements.define('scale-backend', ScaleBackend);

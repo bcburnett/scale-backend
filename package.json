@@ -16,6 +16,12 @@
   },
   "keywords": [],
   "author": "Brian C. Burnett",
+  "scripts": {
+    "start": "npm run serve | npm run watch",
+    "serve": "polymer serve --port 8080",
+    "test": "polymer test",
+    "watch": "browser-sync start --proxy localhost:8080 --open --startPath \"components/MY-ELEMENT\" --files \"**/*.html\""
+  },
   "devDependencies": {
     "@polymer/test-fixture": "^4.0.2",
     "axe-core": "^3.0.0",
