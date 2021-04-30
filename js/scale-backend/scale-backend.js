@@ -1,13 +1,13 @@
 /* eslint-disable require-jsdoc */
-import {LitElement, html, css} from 'lit-element';
-import {connect} from 'pwa-helpers/connect-mixin.js';
+import { LitElement, html, css } from 'lit-element';
+import { connect } from 'pwa-helpers/connect-mixin.js';
 import produce from 'immer';
-import {initApp} from './scale-backend-actions';
-import {app} from './scale-backend-reducer';
-import {store} from '../store.js';
-store.addReducers({app});
+import { initApp, jsonUpdate, scaleTenWeight } from './scale-backend-actions';
+import { app } from './scale-backend-reducer';
+import { store } from '../store.js';
+store.addReducers({ app });
 
-export class ScaleBackend extends connect(store)( LitElement) {
+export class ScaleBackend extends connect(store)(LitElement) {
   /**
    * lit-element observed properties
    */
@@ -17,69 +17,47 @@ export class ScaleBackend extends connect(store)( LitElement) {
     };
   }
 
-  //   /**
-  //    * lit-element styles array. external style sheets can be added here.
-  //    */
-  //   static get styles() {
-  //     return [css`
-
-  // `];
-  //   }
-
-  /**
- * called when the component is created but before it is attached to the dom
- */
   constructor() {
     super();
+    this.state={tenWeight : 1};
     store.dispatch(initApp());
+      store.dispatch(jsonUpdate(json)); 
+      setInterval(()=> {if(json.weight != this.state.json.weight)store.dispatch(jsonUpdate(json, this.state.tenWeight)) }, 1000);
   }
-
-  // /**
-  //  * called after the first render, the shadow-dom is attached now.
-  //  */
-  // firstUpdated(changedProperties){
-  //   console.log('first updated', changedProperties)
-  // }
-
-  // /**
-  //  *  Invoked when a component is added to the document’s DOM.
-  //  */
-  // connectedCallback() {
-  //   super.connectedCallback()
-
-  //   console.log('connected')
-  // }
-
-  // /**
-  //  *  Invoked when a component is removed from the document’s DOM.
-  //  */
-  // disconnectedCallback() {
-  //   super.disconnectedCallback()
-
-  //   console.log('disconnected')
-  // }
-
-  // attributeChangedCallback(name, oldValue, newValue){
-  //   super.attributeChangedCallback();
-  //   console.log('attribute changed', e)
-  // }
 
   render() {
     return html`
-  <h1>${this.state.myapp}</h1>
+  <style>
+
+  div{
+    text-align: center;
+    font-size: 1.5rem;
+  }
+  </style>
+  <div>
+    <h1>${this.state.myapp}</h1>
+    <p> Weight: ${this.state.json.weight}</p>
+    <p> Temperature: ${this.state.json.temperature}</p>
+    <p> Humidity: ${this.state.json.humidity}</p>
+    <p>
+      <button @click="${(e) => websocket.send("tare")}">Tare</button>
+      </p>
+      <p>
+      <button @click="${(e) => store.dispatch(scaleTenWeight(this.state.json.weight))}">10 Weight</button>
+    </p>
+    <p> 10 weight: ${this.state.tenWeight}</p>
+<p> count: ${Math.ceil(this.state.count)}</p>
+  </div>
     `;
   }
 
   stateChanged(state) {
     console.log('state changed', state);
-    this.state = produce(state, (newState)=>{
-      newState=state;
+    this.state = produce(state, (newState) => {
+      newState = state;
     }).app;
   }
 
-  // updated(changedProperties) {
-  //   console.log(changedProperties);
-  // }
 }
 
 customElements.define('scale-backend', ScaleBackend);

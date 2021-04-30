@@ -1,16 +1,16 @@
 /* eslint-disable require-jsdoc */
-import produce from 'immer';
-import { INIT_APP ,JSON_UPDATE, SCALE_TENWEIGHT} from './scale-backend-actions';
-
+import produce from "../../node_modules/immer/dist/immer.esm.js";
+import { INIT_APP, JSON_UPDATE, SCALE_TENWEIGHT } from "./scale-backend-actions.js";
 const initialState = {
   myapp: 'test-data',
-  json:{weight:0},
-  tenWeight:1,
-  count:0,
+  json: {
+    weight: 0
+  },
+  tenWeight: 1,
+  count: 0
 };
-
-export function app(state=initialState, action) {
-  return produce(state, (newState) =>{
+export function app(state = initialState, action) {
+  return produce(state, newState => {
     switch (action.type) {
       case INIT_APP:
         newState.myapp = action.myapp;
