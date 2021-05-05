@@ -2,9 +2,12 @@
 import { LitElement, html, css } from "../../node_modules/lit-element/lit-element.js";
 import { connect } from "../../node_modules/pwa-helpers/connect-mixin.js";
 import produce from "../../node_modules/immer/dist/immer.esm.js";
-import { initApp, jsonUpdate, scaleTenWeight } from "./scale-backend-actions.js";
+import { initApp, jsonUpdate, scaleTenWeight, searchDatabase } from "./scale-backend-actions.js";
 import { app } from "./scale-backend-reducer.js";
 import { store } from '../store.js';
+import "./recipe-entryForm.js";
+import "./recipe-display.js";
+import "./recipe-search.js";
 store.addReducers({
   app
 });
@@ -23,7 +26,6 @@ export class ScaleBackend extends connect(store)(LitElement) {
     this.state = {
       tenWeight: 1
     };
-    store.dispatch(initApp());
     store.dispatch(jsonUpdate(json));
     setInterval(() => {
       if (json.weight != this.state.json.weight) store.dispatch(jsonUpdate(json, this.state.tenWeight));
@@ -32,26 +34,46 @@ export class ScaleBackend extends connect(store)(LitElement) {
 
   render() {
     return html`
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,700">
   <style>
 
+.grid{
+  display:grid;
+  grid-template-columns: 1fr 2fr;
+}
+
   div{
-    text-align: center;
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
   </style>
   <div>
-    <h1>${this.state.myapp}</h1>
-    <p> Weight: ${this.state.json.weight}</p>
-    <p> Temperature: ${this.state.json.temperature}</p>
-    <p> Humidity: ${this.state.json.humidity}</p>
-    <p>
-      <button @click="${e => websocket.send("tare")}">Tare</button>
-      </p>
-      <p>
-      <button @click="${e => store.dispatch(scaleTenWeight(this.state.json.weight))}">10 Weight</button>
-    </p>
-    <p> 10 weight: ${this.state.tenWeight}</p>
-<p> count: ${Math.ceil(this.state.count)}</p>
+    <div class="grid">
+
+      <div>
+        <h2>Scale Browser App</h2>
+        <hr>
+        <p> Weight: ${this.state.json.weight}</p>
+        <p> Temperature: ${this.state.json.temperature}</p>
+        <p> Humidity: ${this.state.json.humidity}</p>
+        <hr>
+        <p>
+        <button style="margin-left: 2rem;" @click="${e => websocket.send("tare")}">Tare</button>
+        <br><br>
+        <button style="margin-left: 2rem;" @click="${e => store.dispatch(scaleTenWeight(this.state.json.weight))}">Count</button>
+        Weight: ${this.state.tenWeight} <span style="margin-left: 2rem">count: ${Math.ceil(this.state.count)}</span></p>
+        <hr>
+        <recipe-search></recipe-search>
+      </div>
+
+
+      <div>
+        <recipe-display></recipe-display>
+      </div>
+
+  </div>
+<hr>
+<recipe-entryform></recipe-entryform>
   </div>
     `;
   }

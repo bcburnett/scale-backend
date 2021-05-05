@@ -24,3 +24,61 @@ export const scaleTenWeight = tenWeight => {
     count: Number(json.weight) / (tenWeight / 10)
   };
 };
+export const SAVE_RECIPE = 'SAVE_RECIPE';
+export const saveRecipe = recipe => {
+  return {
+    type: SAVE_RECIPE,
+    recipe
+  };
+};
+export const ADD_TO_DATABASE = 'ADD_TO_DATABASE';
+export const addToDatabase = recipe => {
+  return dispatch => {
+    fetch('http://192.168.1.177:2020/recipe', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(recipe)
+    }).then(res => res.json()).then(res => {
+      dispatch(saveRecipe(res));
+    });
+  };
+};
+export const UPDATE_DATABASE = 'UPDATE_DATABASE';
+export const updateDatabase = recipe => {
+  return dispatch => {
+    fetch('http://192.168.1.177:2020/update', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(recipe)
+    }).then(res => res.json()).then(res => {
+      dispatch(saveRecipe(res));
+    });
+  };
+};
+export const SEARCH_DATABASE = 'SEARCH_DATABASE';
+export const searchDatabase = searchString => {
+  return dispatch => {
+    fetch('http://192.168.1.177:2020/search', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(searchString)
+    }).then(res => res.json()).then(res => {
+      dispatch(saveSearch(res));
+    });
+  };
+};
+export const saveSearch = result => {
+  return {
+    type: SEARCH_DATABASE,
+    result
+  };
+};

@@ -28,7 +28,6 @@ function toFixed(num, fixed) {
 
 function onMessage(event) {
   json = JSON.parse(event.data);
-  console.log(json);
   if (json.reload == "true") location.reload();
 } // on page load
 

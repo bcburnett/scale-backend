@@ -1,12 +1,28 @@
 /* eslint-disable require-jsdoc */
 import produce from 'immer';
-import { INIT_APP ,JSON_UPDATE, SCALE_TENWEIGHT} from './scale-backend-actions';
+import { INIT_APP ,JSON_UPDATE, SCALE_TENWEIGHT, SAVE_RECIPE, SEARCH_DATABASE} from './scale-backend-actions';
 
 const initialState = {
   myapp: 'test-data',
   json:{weight:0},
   tenWeight:1,
   count:0,
+  recipe: {
+    "name": "Recipe Name",
+    "description": "none",
+    "cuisine": "Choose",
+    "type": "Choose",
+    "priingredient": "none",
+    "ingredients": [],
+    "instructions": "none",
+    "ptime": "10",
+    "ctime": "10",
+    "servings": "10",
+    "source": "none",
+    "website": "none",
+    "_id":"",
+  },
+  searchResult:[],
 };
 
 export function app(state=initialState, action) {
@@ -24,6 +40,14 @@ export function app(state=initialState, action) {
       case SCALE_TENWEIGHT:
         newState.tenWeight = action.tenWeight;
         newState.count = action.count;
+        break;
+
+      case SAVE_RECIPE:
+        newState.recipe = action.recipe;
+        break;
+
+      case SEARCH_DATABASE:
+        newState.searchResult = action.result;
         break;
 
       default:
