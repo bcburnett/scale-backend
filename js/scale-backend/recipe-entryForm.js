@@ -72,7 +72,7 @@ pre{
   max-width:300px;
 }
 
-@media (max-width: 300px) {
+@media (max-width: 900px) {
 .grid{
   grid-template-columns: 1fr;
 }
@@ -82,6 +82,7 @@ pre{
 
 <!-- //grid collumn 1 -->
 <div> 
+
   <div class="form-floating">
    <label for="r_name">Recipe Name</label>
     <input type="text"  
@@ -107,61 +108,66 @@ pre{
   
   <div  class="form-floating">
     <label for="r_cuisine">Cuisine</label>
-    <select 
-    id="r_cuisine"  
+    <input 
+     list="cuisine_type"
+    type="text"
+    id="r_cuisine"
+    value="${this.state.recipe.cuisine}"
     class="form-control" 
     @change="${e => {
         this.recipe = { ...this.recipe, cuisine: e.target.value };
         this.submit()
       }}">
-      <option value="Choose">Choose</option>
-      <option value="African">African</option>
-      <option value="American">American</option>
-      <option value="Asian">Asian</option>
-      <option value="Caribbean">Caribbean</option>
-      <option value="Chinese">Chinese</option>
-      <option value="French">French</option>
-      <option value="Greek">Greek</option>
-      <option value="Indian">Indian</option>
-      <option value="Italian">Italian</option>
-      <option value="Japanese">Japanese</option>
-      <option value="Mexican">Mexican</option>
-      <option value="Middle Eastern">Middle Eastern</option>
-      <option value="Moroccan">Moroccan</option>
-      <option value="Spanish">Spanish</option>
-      <option value="Thai">Thai</option>
-      <option value="Other">Other</option>
-    </select>
+      <datalist id="cuisine_type">
+      <option value="African">
+      <option value="American">
+      <option value="Asian">
+      <option value="Caribbean">
+      <option value="Chinese">
+      <option value="French">
+      <option value="Greek">
+      <option value="Indian">
+      <option value="Italian">
+      <option value="Japanese">
+      <option value="Mexican">
+      <option value="Middle Eastern">
+      <option value="Moroccan">
+      <option value="Spanish">
+      <option value="Thai">
+      </datalist>
   </div>
   
   <div  class="form-floating">
     <label for="r_type">Dish type</label>
-    <select 
-    id="r_type"  
+    <input
+    list="type_list"
+    type="text"
+    id="r_type"
+    value="${this.state.recipe.type}"
     class="form-control" 
         @change="${e => {
         this.recipe = { ...this.recipe, type: e.target.value };
         this.submit()
       }}">
-      <option value="Choose">Choose</option>
-      <option value="Appetizer">Appetizer</option>
-      <option value="Beverage">Beverage</option>
-      <option value="Bread">Bread</option>
-      <option value="Dessert">Dessert</option>
-      <option value="Main">Main</option>
-      <option value="Salad">Salad</option>
-      <option value="Soup">Soup</option>
-      <option value="Breakfast">Breakfast</option>
-      <option value="Lunch">Lunch</option>
-      <option value="Dinner">Dinner</option>
-      <option value="Vegetable">Vegetable</option>
-      <option value="Beef">Beef</option>
-      <option value="Pork">Pork</option>
-      <option value="Chicken">Chicken</option>
-      <option value="Fish">Fish</option>
-      <option value="Meat">Meat</option>
-      
-    </select>
+      <datalist id="type_list">
+      <option value="Choose">
+      <option value="Appetizer">
+      <option value="Beverage">
+      <option value="Bread">
+      <option value="Dessert">
+      <option value="Main">
+      <option value="Salad">
+      <option value="Soup">
+      <option value="Breakfast">
+      <option value="Lunch">
+      <option value="Dinner">
+      <option value="Vegetable">
+      <option value="Beef">
+      <option value="Pork">
+      <option value="Chicken">
+      <option value="Fish">
+      <option value="Meat">
+      </datalist>
   </div>
   
   <div  class="form-floating">
@@ -205,6 +211,7 @@ pre{
 
 </div>
 
+<!-- //grid collumn 2 -->
 <div>
   
   <div class="form-floating">
@@ -257,6 +264,8 @@ pre{
   </div>
 
 </div>  
+
+<!-- //grid collumn 3 -->
 <div>
   <div  class="form-floating">
     <label for="r_ptime">Prep time</label>
@@ -311,30 +320,29 @@ pre{
         this.submit()
       }}">
   </div>
-  
   <div>
     <button @click="${e => store.dispatch(addToDatabase(this.state.recipe))}">Add</button>
     <button @click="${e => this.modifyDatabase()}">Update</button>
     <button @click="${e => store.dispatch(saveRecipe({
-      name: '',
-      description: '',
-      cuisine: '',
-      type: '',
-      priingredient: '',
-      ingredients: [],
-      instructions: '',
-      ptime: '',
-      ctime: '',
-      servings: '',
-      source: '',
-      website: '',
-      _id: '',
-    }))}">Clear</button>
+        name: '',
+        description: '',
+        cuisine: '',
+        type: '',
+        priingredient: '',
+        ingredients: [],
+        instructions: '',
+        ptime: '',
+        ctime: '',
+        servings: '',
+        source: '',
+        website: '',
+        _id: '',
+      }))}">Clear</button>
 
   </div>
 </div>
 
-</div>
+</div> <!-- grid end -->
 
 <div style="
 height: 100px;
@@ -346,7 +354,7 @@ height: 100px;
     store.dispatch(saveRecipe(this.recipe));
   }
 
-  modifyDatabase(){
+  modifyDatabase() {
     store.dispatch(updateDatabase(this.state.recipe))
   }
 
@@ -362,7 +370,7 @@ height: 100px;
     this.shadowRoot.getElementById("unit").value = "";
     this.shadowRoot.getElementById("ingredient").value = "";
     this.shadowRoot.getElementById("qty").focus();
-    this.ingredients = [...this.ingredients, [this.qty, this.unit, this.ing] ];
+    this.ingredients = [...this.ingredients, [this.qty, this.unit, this.ing]];
     this.recipe = { ...this.recipe, ingredients: [...this.ingredients] };
     this.submit();
   }
@@ -378,13 +386,14 @@ height: 100px;
 
   stateChanged(state) {
     console.log('state changed', state);
-    this.state = produce(state, (newState) => {
-      newState = state;
-    }).app;
-    this.recipe = this.state.recipe;
-    this.ingredients = [...this.state.recipe.ingredients];
-    this.shadowRoot.getElementById('r_description').value = this.state.recipe.description;
-    this.shadowRoot.getElementById('r_instructions').value = this.state.recipe.instructions;
+    this.state = state.app;
+    if (this.recipe._id != this.state.recipe._id) {
+      console.log('recipe changed');
+      this.recipe = this.state.recipe;
+      this.ingredients = [...this.state.recipe.ingredients];
+      this.shadowRoot.getElementById('r_description').value = this.state.recipe.description;
+      this.shadowRoot.getElementById('r_instructions').value = this.state.recipe.instructions;
+    }
   }
 
   // updated(changedProperties) {

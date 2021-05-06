@@ -29,7 +29,7 @@ export class RecipeDisplay extends connect(store)(LitElement) {
 
 img {
 
-  max-width: 100%;
+  max-width: 90%;
   height: auto;
   vertical-align: bottom;
 }
@@ -38,7 +38,6 @@ img {
   background: rgba(255,255,255,0.25);
   margin: 4em auto;
   width: 90%;
-  max-width: 496px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -169,7 +168,7 @@ pre{
 
 	<aside>
 
-		<img src="${this.state.recipe.website||"https://s3-us-west-2.amazonaws.com/s.cdpn.io/203277/oatmeal.jpg"}" alt="Chai Oatmeal" />
+		<img src="${this.state.recipe.website || "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="}" alt="Chai Oatmeal" />
 
 	</aside>
 
